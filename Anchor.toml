@@ -5,7 +5,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-counter = "6vYWimHFSh94cihmFpZ5MAT2aY1DpTCFzqnT9r7fgVDD"
+counter = "4ei1iBUT5iHystTcQzRNd7ZQbga2KiBH9dkV2DP8Gz38"
 
 [registry]
 url = "https://api.apr.dev"
@@ -15,4 +15,4 @@ cluster = "Localnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
-test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+test = "yarn vitest run --config vitest.config.ts --watch"

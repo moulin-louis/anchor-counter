@@ -3,10 +3,18 @@
 // configured from the workspace's Anchor.toml.
 
 const anchor = require("@coral-xyz/anchor");
+import { copyFileSync } from "node:fs";
 
 module.exports = async function (provider) {
   // Configure client to use the provider.
   anchor.setProvider(provider);
 
   // Add your deploy script here.
+  console.log("Running migrations...:");
+  copyFileSync("./target/types/counter.ts", "./app/src/idl/idl.ts");
+  console.log("-  idl.ts copied");
+
+  copyFileSync("./target/idl/counter.json", "./app/src/idl/idl.json");
+  console.log("- idl.json copied");
+  console.log("✅ Migration done!");
 };

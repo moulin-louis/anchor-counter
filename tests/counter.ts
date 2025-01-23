@@ -1,13 +1,12 @@
+import { describe, it, expect } from "vitest";
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
-import { assert, expect } from "chai";
 import { Counter } from "../target/types/counter";
 
 describe("counter", () => {
   // Configure the client to use the local cluster.
   anchor.setProvider(anchor.AnchorProvider.env());
   const provider = anchor.getProvider();
-
   const program = anchor.workspace.Counter as Program<Counter>;
 
   it("check initialize", async () => {
@@ -35,21 +34,20 @@ describe("counter", () => {
       .signers([counterAccount])
       .rpc();
     console.log("account initialized: ", tx);
+
     tx = await program.methods
       .increment()
       .accounts({
         counter: counterAccount.publicKey,
       })
       .rpc();
-
     console.log("account incremented: ", tx);
+
     const counter = await program.account.counter.fetch(
       counterAccount.publicKey
     );
-    assert(
-      () => counter.count.eq(new anchor.BN(1)),
-      "Counter count isn't initialized to 1"
-    );
+
+    expect(counter.count.eq(new anchor.BN(1))).toBe(true);
   });
 
   it("check assign", async () => {
@@ -62,8 +60,8 @@ describe("counter", () => {
       })
       .signers([counterAccount])
       .rpc();
-
     console.log("account initialized: ", tx);
+
     tx = await program.methods
       .assign(new anchor.BN(42))
       .accounts({
@@ -71,13 +69,12 @@ describe("counter", () => {
       })
       .rpc();
     console.log("account assigned: ", tx);
+
     const counter = await program.account.counter.fetch(
       counterAccount.publicKey
     );
-    assert(
-      () => counter.count.eq(new anchor.BN(42)),
-      "Counter count isn't initialized to 1"
-    );
+
+    expect(counter.count.eq(new anchor.BN(42))).toBe(true);
   });
 
   it("check increment overflow error", async () => {
@@ -90,8 +87,8 @@ describe("counter", () => {
       })
       .signers([counterAccount])
       .rpc();
-
     console.log("account initialized: ", tx);
+
     const u64Max = "18446744073709551615";
     tx = await program.methods
       .assign(new anchor.BN(u64Max))
@@ -99,14 +96,18 @@ describe("counter", () => {
         counter: counterAccount.publicKey,
       })
       .rpc();
+
     const counter = await program.account.counter.fetch(
       counterAccount.publicKey
     );
-    expect(
+
+    await expect(
       program.methods
         .increment()
         .accounts({ counter: counterAccount.publicKey })
         .rpc()
-    ).to.be.rejectedWith("The error message you expect");
+    ).rejects.toThrow(
+      "AnchorError occurred. Error Code: Overflow. Error Number: 6000. Error Message: Runtime Increment Overflow."
+    );
   });
 });

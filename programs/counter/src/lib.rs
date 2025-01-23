@@ -4,7 +4,7 @@ mod state;
 
 use state::Counter;
 
-declare_id!("6vYWimHFSh94cihmFpZ5MAT2aY1DpTCFzqnT9r7fgVDD");
+declare_id!("4ei1iBUT5iHystTcQzRNd7ZQbga2KiBH9dkV2DP8Gz38");
 
 #[program]
 pub mod counter {
