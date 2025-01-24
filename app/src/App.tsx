@@ -13,8 +13,8 @@ import {
 
 // Default styles that can be overridden by your app
 import { createContext, useContext } from "react";
-import { Counter } from '../../target/types/counter.ts'
-import IDL from '../../target/idl/counter.json'
+import { Counter } from './idl/idl.ts'
+import IDL from './idl/idl.json'
 
 import "@solana/wallet-adapter-react-ui/styles.css";
 import TransactionTest from "./TransactionTest";
