@@ -15,10 +15,11 @@ import {
 import { createContext, ReactNode, useContext } from "react";
 import { Counter } from './idl/idl.ts'
 import IDL from './idl/idl.json'
-import './App.css'
 
 import TransactionTest from "./TransactionTest";
 import { clusterApiUrl, Keypair } from "@solana/web3.js";
+
+import './App.css'
 
 
 export const counterAccount = Keypair.generate();

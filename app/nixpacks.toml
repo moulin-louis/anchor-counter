@@ -3,6 +3,9 @@ providers = ['node', 'staticfile']
 [variables]
 NIXPACKS_NODE_VERSION = "20"
 
+[phases."staticfile:setup"]
+onlyIncludeFiles = ['./nginx.conf']
+
 [phases.setup]
 nixPkgs = ['...']
 
@@ -11,3 +14,8 @@ dependsOn = ['setup']
 
 [phases.build]
 dependsOn = ['install']
+
+[start]
+cmd = "nginx -c /app/nginx.conf"
+runImage = 'nginx:1.27.2'
+onlyIncludeFiles = ['/app/dist', '/app/nginx.conf']
