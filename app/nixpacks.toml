@@ -1,0 +1,13 @@
+providers = ['node', 'staticfile']
+
+[variables]
+NIXPACKS_NODE_VERSION = "20"
+
+[phases.setup]
+nixPkgs = ['...']
+
+[phases.install]
+dependsOn = ['setup']
+
+[phases.build]
+dependsOn = ['install']

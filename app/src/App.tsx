@@ -12,11 +12,11 @@ import {
 } from "@solana/wallet-adapter-react-ui";
 
 // Default styles that can be overridden by your app
-import { createContext, useContext } from "react";
+import { createContext, ReactNode, useContext } from "react";
 import { Counter } from './idl/idl.ts'
 import IDL from './idl/idl.json'
+import './App.css'
 
-import "@solana/wallet-adapter-react-ui/styles.css";
 import TransactionTest from "./TransactionTest";
 import { clusterApiUrl, Keypair } from "@solana/web3.js";
 
@@ -30,7 +30,7 @@ export const useProgram = () => {
   return useContext(ProgramAnchorContext);
 }
 
-function ProgramAnchorProvider({ children }) {
+function ProgramAnchorProvider({ children }: { children: ReactNode }) {
   const wallet = useWallet();
   const connectionState = useConnection();
   if (wallet.connected === false) {

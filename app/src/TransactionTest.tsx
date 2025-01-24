@@ -10,16 +10,13 @@ export default function TransactionTest() {
   const program = useProgram();
   const wallet = useWallet();
   const onClickInit = async () => {
-    try {
-      const tx = await program?.methods.initialize().accounts({
-        signer: wallet.publicKey,
-        counter: counterAccount.publicKey,
-      }).signers([counterAccount]).rpc();
-      console.log('tx init = ', tx);
-    } catch (e) {
-      e.getLogs();
-    }
-
+    if (!wallet.publicKey)
+      throw new Error("wallet not connected")
+    const tx = await program?.methods.initialize().accounts({
+      signer: wallet.publicKey,
+      counter: counterAccount.publicKey,
+    }).signers([counterAccount]).rpc();
+    console.log('tx init = ', tx);
   }
   const onClickFetch = async () => {
     const state = await program?.account.counter.fetch(counterAccount.publicKey);
