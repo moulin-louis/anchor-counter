@@ -18,7 +18,7 @@ import IDL from '../../target/idl/counter.json'
 
 import "@solana/wallet-adapter-react-ui/styles.css";
 import TransactionTest from "./TransactionTest";
-import { Keypair } from "@solana/web3.js";
+import { clusterApiUrl, Keypair } from "@solana/web3.js";
 
 
 export const counterAccount = Keypair.generate();
@@ -40,6 +40,7 @@ function ProgramAnchorProvider({ children }) {
       </ProgramAnchorContext.Provider >
     </>)
   }
+  console.log('connection - ', connectionState.connection,)
   const provider = new AnchorProvider(connectionState.connection, wallet as AnchorWallet, {
     commitment: 'confirmed'
   })
@@ -55,7 +56,7 @@ function ProgramAnchorProvider({ children }) {
 function App() {
   // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
   // You can also provide a custom RPC endpoint.
-  const endpoint = "http://localhost:8899";
+  const endpoint = clusterApiUrl("devnet");
 
   return (
     <ConnectionProvider endpoint={endpoint}>
